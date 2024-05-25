@@ -1,45 +1,47 @@
-import Notion, { NOTION_DB } from "./notion";
-import { NotionToMarkdown } from "notion-to-md";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import NotionModule from "./notion";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { writeFileSync, mkdirSync } from "fs";
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { writeFile, mkdir } from "fs/promises";
+import { transformMd } from "./transformMarkdown";
+import { parallel, safeName } from "./utils";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const n2m = new NotionToMarkdown({ notionClient: Notion });
-const posts: { [key: string]: any; results: PageObjectResponse[] } = await Notion.databases.query({
-    database_id: NOTION_DB as string,
-    filter: {
-        or: [
-            {
-                property: "Status",
-                select: {
-                    equals: "Published",
-                },
-            },
-        ],
-    },
+const Notion = new NotionModule({
+    secret: process.env.NOTION_SECRET,
+    database: process.env.NOTION_DB,
 });
 
-await Promise.all(
-    posts.results.map(async (post) => {
-        const mdblocks = await n2m.pageToMarkdown(post.id);
-        const mdString = n2m.toMarkdownString(mdblocks).parent;
+console.log("Fetching pages...");
+const pages = await Notion.fetchArticles();
+console.log(`Found ${pages.length} pages`);
 
-        if (!("title" in post.properties.Title)) return;
-        ["year", "month", "day"].forEach((prop: keyof PageObjectResponse["properties"]) => {
-            if (!(prop in post.properties)) return;
-            if (post.properties[prop].type != "formula") return;
-            // @ts-ignore
-            if (!("string" in post.properties[prop].formula)) return;
+await parallel(
+    pages,
+    async (page: PageObjectResponse) => {
+        const article = await Notion.getArticle(page);
+
+        const articlePath = `${__dirname}/../src/content/posts/${page.properties.year.formula.string}/${page.properties.month.formula.string}/${page.properties.day.formula.string}/`;
+        const assetsPath = articlePath;
+        const fileName = `${safeName(page.properties.Title?.title[0]?.plain_text)}.md`;
+
+        // transform markdown
+        article.markdown = await transformMd({
+            markdown: article.content.parent,
+            article,
+            articlePath: articlePath,
+            assetsPath,
         });
 
-        const fileDirectory = `${__dirname}/posts/${post.properties.year.formula.string}/${post.properties.month.formula.string}/${post.properties.day.formula.string}/`;
-        const fileName = `${post.properties.Title.title[0].plain_text}.md`.replace(/[?\/\:]/g, "-");
+        // save markdown to disk
+        // TODO: check if content's not updated
+        // and if not, don't save
+        await mkdir(articlePath, { recursive: true });
+        await writeFile(`${articlePath}/${fileName}`, article.markdown, "utf8");
 
-        mkdirSync(fileDirectory, { recursive: true });
-        writeFileSync(`${fileDirectory}/${fileName}`, mdString, { encoding: "utf-8" });
-    })
+        console.log(`Created '${articlePath}' from "${article.title}" (${article.id})`);
+    },
+    25
 );

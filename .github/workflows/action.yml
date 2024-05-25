@@ -28,5 +28,8 @@ jobs:
             - name: Install deps
               run: yarn install
             - name: Run script
-              run: yarn start
               if: steps.env.outcome == 'success'
+              env:
+                NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
+                NOTION_DATABASE: d3093d5c8d0c499ea68785f14409b144
+              run: yarn start

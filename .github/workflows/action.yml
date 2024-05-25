@@ -29,7 +29,7 @@ jobs:
               run: yarn install
             - name: Run script
               if: steps.env.outcome == 'success'
-              env:
-                NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
-                NOTION_DATABASE: d3093d5c8d0c499ea68785f14409b144
-              run: yarn start
+              run: |
+                  export NOTION_SECRET=${{ secrets.NOTION_SECRET }}
+                  export NOTION_DATABASE=d3093d5c8d0c499ea68785f14409b144
+                  yarn start

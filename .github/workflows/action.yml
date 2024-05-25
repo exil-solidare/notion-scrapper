@@ -18,7 +18,8 @@ jobs:
               with:
                   node-version: "20.x"
                   cache: "yarn"
-                  NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
-                  NOTION_DATABASE: d3093d5c8d0c499ea68785f14409b144
             - run: yarn install
             - run: yarn start
+              env:
+                  NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
+                  NOTION_DATABASE: d3093d5c8d0c499ea68785f14409b144

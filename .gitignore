@@ -17,7 +17,6 @@ pnpm-debug.log*
 .env
 .env.production
 .yarn/
-posts/*
 !**/*/.keep
 
 # macOS-specific files

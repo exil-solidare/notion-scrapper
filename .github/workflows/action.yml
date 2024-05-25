@@ -13,6 +13,12 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+            - name: "Create env file"
+              run: |
+                  touch .env
+                  echo NOTION_SECRET=${{ secrets.NOTION_SECRET }} >> .env
+                  echo NOTION_DATABASE=d3093d5c8d0c499ea68785f14409b144 >> .env
+                  cat .env
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v3
               with:
@@ -20,6 +26,3 @@ jobs:
                   cache: "yarn"
             - run: yarn install
             - run: yarn start
-              env:
-                  NOTION_SECRET: ${{ secrets.NOTION_SECRET }}
-                  NOTION_DATABASE: d3093d5c8d0c499ea68785f14409b144

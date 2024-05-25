@@ -17,7 +17,7 @@ jobs:
               run: |
                   touch .env
                   echo NOTION_SECRET = ${{ secrets.NOTION_SECRET }} >> .env
-                  echo NOTION_DATABASE = d3093d5c8d0c499ea68785f14409b144 >> .env
+                  echo NOTION_DB = d3093d5c8d0c499ea68785f14409b144 >> .env
             
             - name: Use Node.js
               uses: actions/setup-node@v3

@@ -1,0 +1,22 @@
+{
+    "name": "scrapper",
+    "type": "module",
+    "packageManager": "yarn@4.0.2",
+    "scripts": {
+        "dev": "tsx watch index.ts",
+        "start": "tsx index.ts",
+        "build": "tsc -p tsconfig.json"
+    },
+    "dependencies": {
+        "@notionhq/client": "2.2.15",
+        "dotenv": "16.4.5",
+        "fastify": "4.27.0",
+        "notion-to-md": "^3.1.1"
+    },
+    "devDependencies": {
+        "@types/dotenv": "8.2.0",
+        "@types/node": "20.12.12",
+        "tsx": "4.11.0",
+        "typescript": "5.4.5"
+    }
+}

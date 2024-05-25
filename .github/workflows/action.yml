@@ -18,6 +18,5 @@ jobs:
               with:
                   node-version: "20.x"
                   cache: "yarn"
-            - run: echo "NOTION_TOKEN = ${{ secrets.NOTION_SECRET }}\nNOTION_DB = d3093d5c8d0c499ea68785f14409b144" > .env
-            - run: yarn install
+            - run: echo "NOTION_TOKEN = ${{ secrets.NOTION_SECRET }}\nNOTION_DB = d3093d5c8d0c499ea68785f14409b144" > .env && yarn install
             - run: yarn start

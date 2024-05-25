@@ -1,7 +1,6 @@
 {
     "name": "scrapper",
     "type": "module",
-    "packageManager": "yarn@4.0.2",
     "scripts": {
         "dev": "tsx watch index.ts",
         "start": "tsx index.ts",

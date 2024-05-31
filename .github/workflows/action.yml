@@ -20,20 +20,21 @@ jobs:
               run: |
                   touch .env
                   echo NOTION_SECRET = ${{ secrets.NOTION_SECRET }} >> .env
-                  echo NOTION_DB = d3093d5c8d0c499ea68785f14409b144 >> .env
-            
+                  echo NOTION_DB_PAGES = 22e64d4c9e1e4888af7dda6326236d34 >> .env
+                  echo NOTION_DB_POSTS = d3093d5c8d0c499ea68785f14409b144 >> .env
+
             - name: Use Node.js
               uses: actions/setup-node@v3
               with:
                   node-version: "20.x"
                   cache: "yarn"
-            
+
             - name: Install deps
               run: yarn install
-            
+
             - name: Run script
               run: yarn start
-            
+
             - name: Save changes
               uses: stefanzweifel/git-auto-commit-action@v4
               with:

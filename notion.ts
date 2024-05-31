@@ -17,13 +17,13 @@ export default class NotionModule {
         this.notion2md = new NotionToMarkdown({ notionClient: this.notion });
     }
 
-    async fetchArticles() {
+    async fetchEntries() {
         const pages = await this._fetchPagesFromDb(this.database_id);
         return pages;
     }
 
-    async getArticle(page: PageObjectResponse) {
-        let article = {
+    async getEntry(page: PageObjectResponse) {
+        const entry = {
             id: page.id,
             title: getTitle(page),
             ...toPlainPage(page),
@@ -31,7 +31,7 @@ export default class NotionModule {
             content: await this._getPageMarkdown(page.id),
         };
 
-        return article;
+        return entry;
     }
 
     async _fetchPagesFromDb(database_id) {

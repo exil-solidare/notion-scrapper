@@ -7,6 +7,9 @@ dist/
 # dependencies
 node_modules/
 
+# .pnp.*js
+.pnp*
+
 # logs
 npm-debug.log*
 yarn-debug.log*

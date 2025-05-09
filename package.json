@@ -7,22 +7,26 @@
         "build": "tsc -p tsconfig.json"
     },
     "dependencies": {
-        "@notionhq/client": "2.2.15",
-        "dotenv": "16.4.5",
+        "@notionhq/client": "3.0.1",
+        "dotenv": "16.5.0",
         "js-yaml": "4.1.0",
-        "notion-to-md": "3.1.1",
+        "notion-to-md": "3.1.8",
         "remark-frontmatter": "5.0.0",
-        "remark-gfm": "4.0.0",
+        "remark-gfm": "4.0.1",
         "remark-parse": "11.0.0",
         "remark-stringify": "11.0.0",
-        "unified": "11.0.4"
+        "unified": "11.0.5"
     },
     "devDependencies": {
-        "@types/dotenv": "8.2.0",
-        "@types/js-yaml": "4",
-        "@types/node": "20.12.12",
-        "tsx": "4.11.0",
-        "typescript": "5.4.5"
+        "@eslint/js": "^9.26.0",
+        "@types/dotenv": "8.2.3",
+        "@types/js-yaml": "4.0.9",
+        "@types/node": "^22.15.15",
+        "eslint": "^9.26.0",
+        "prettier": "^3.5.3",
+        "tsx": "4.19.4",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.32.0"
     },
     "packageManager": "yarn@4.2.2"
 }
